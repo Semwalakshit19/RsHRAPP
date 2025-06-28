@@ -23,25 +23,37 @@ class Fulldayleave extends StatelessWidget {
     // Addfulldayleave.Getdayscal();
 
     Future<void> scheduleNotification() async {
-      // Format the date into a readable format
-      // String formattedDate = "${approvalDate.day}-${approvalDate.month}-${approvalDate.year}";
-
+      // Android notification setup
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
-        'leave_channel_id', // Unique channel ID
+        'leave_channel_id', // Channel ID
         'Leave Notifications', // Channel name
-        // 'Notifications about leave requests', // Channel description
+        channelDescription:
+            'Notifications about leave requests', // Add this for Android 12+
         importance: Importance.max,
         priority: Priority.high,
+        playSound: true,
       );
 
-      const NotificationDetails platformChannelSpecifics =
-          NotificationDetails(android: androidPlatformChannelSpecifics);
+      // iOS notification setup
+      const DarwinNotificationDetails iosPlatformChannelSpecifics =
+          DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      );
 
+      // Combine both
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iosPlatformChannelSpecifics,
+      );
+
+      // Show notification
       await flutterLocalNotificationsPlugin.show(
         0, // Notification ID
         'Leave Submitted Successfully',
-        'Your leave request has been submitted successfully and is wait for approval  .',
+        'Your leave request has been submitted successfully and is waiting for approval.',
         platformChannelSpecifics,
       );
     }

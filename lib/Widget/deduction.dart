@@ -5,13 +5,13 @@ import 'package:hrapp/Model/PayrollModel.dart';
 import 'package:hrapp/controller/Payrollcontroller.dart';
 
 class Deduction extends StatelessWidget {
-  const Deduction({super.key});
+  const Deduction({super.key, required this.payrollmodel});
+
+  final Payrollmodel payrollmodel;
 
   @override
   Widget build(BuildContext context) {
-    final Payrollcontroller payrollController = Get.put(Payrollcontroller());
-
-    List<payrollDetail> payrolllist = payrollController.payrolldetails
+    List<payrollDetail> payrolllist = payrollmodel.payrolldetails!
         .where((p0) => p0.isallowance == false)
         .toList();
 
@@ -37,10 +37,9 @@ class Deduction extends StatelessWidget {
           else
             // ✅ Fix: wrap ListView.builder in a SizedBox or Expanded
             SizedBox(
-              height: 300, // 👈 set height as per your layout
+              height: 100, // 👈 set height as per your layout
               child: ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
                 itemCount: payrolllist.length,
                 itemBuilder: (context, index) {
                   return Column(

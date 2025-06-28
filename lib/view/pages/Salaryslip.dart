@@ -77,7 +77,9 @@ class Salaryslip extends StatelessWidget {
                     )
                   ],
                 ),
-                Deduction(),
+                Deduction(
+                  payrollmodel: payrollmodel,
+                ),
                 SizedBox(
                   height: 20,
                 ),

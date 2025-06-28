@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:hrapp/Model/PayrollModel.dart';
 import 'package:hrapp/controller/LoginController.dart';
@@ -15,9 +14,6 @@ class Payrollcontroller extends GetxController {
   }
 
   var payrolllist = <Payrollmodel>[].obs;
-
-  var payrolldetails = <payrollDetail>[].obs;
-
   RxString Year = "2024".obs;
 
   PayrollReponse payrollReponse = PayrollReponse();
@@ -25,17 +21,18 @@ class Payrollcontroller extends GetxController {
 
   Future<void> Getpayroll() async {
     isloading.value = true;
+
     try {
       int? empid = loginController.box.read("UserId");
       String url =
           "http://rshrmsapapi.redsecure.online/api/HRMSWEBAPI/payroll?empid=$empid&authcode=${loginController.box.read('AppCode')}";
 
-      final reponse = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url));
 
-      if (reponse.statusCode == 200) {
+      if (response.statusCode == 200) {
         payrolllist.clear();
 
-        final data = jsonDecode(reponse.body);
+        final data = jsonDecode(response.body);
 
         payrollReponse.iserror = data["iserror"];
         payrollReponse.errorMsg = data["errorMsg"];
@@ -53,14 +50,10 @@ class Payrollcontroller extends GetxController {
           payrollmodel.netSalary = pay[i]["NetSalary"];
           payrollmodel.payslipfile = pay[i]["payslipfile"];
 
-          payrollmodel.payrolldetails = payrolldetails;
-
-          payrolllist.add(payrollmodel);
+          // ✅ Create a new list for each payroll entry
+          List<payrollDetail> detailsList = [];
 
           final payroll1 = pay[i]["payrollDetail"];
-
-          payrolldetails.clear();
-
           for (int j = 0; j < payroll1.length; j++) {
             payrollDetail payrolldetail = payrollDetail();
 
@@ -68,15 +61,21 @@ class Payrollcontroller extends GetxController {
             payrolldetail.amount = payroll1[j]["Amount"];
             payrolldetail.isallowance = payroll1[j]["isallowance"];
 
-            payrolldetails.add(payrolldetail);
+            detailsList.add(payrolldetail);
           }
 
-          print(payrollmodel.id.toString());
+          payrollmodel.payrolldetails = detailsList;
+
+          payrolllist.add(payrollmodel);
+          print("Payroll ID: ${payrollmodel.id}");
         }
+      } else {
+        print("Failed to load payroll: ${response.statusCode}");
       }
     } catch (ex) {
-      print(ex.toString());
+      print("Error: $ex");
     }
+
     isloading.value = false;
   }
 }

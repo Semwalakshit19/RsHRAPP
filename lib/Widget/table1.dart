@@ -13,7 +13,7 @@ class Table1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final Payrollcontroller payrollController = Get.put(Payrollcontroller());
 
-    List<payrollDetail> payrolllist = payrollController.payrolldetails
+    final payrolllist = payrollmodel.payrolldetails!
         .where((ob) => ob.isallowance == true)
         .toList();
 
@@ -48,7 +48,8 @@ class Table1 extends StatelessWidget {
           else
             // Wrap with SizedBox to give a fixed or limited height
             SizedBox(
-              height: 300, // 👈 adjust this height as per your UI
+              height: MediaQuery.of(context).size.height /
+                  4, // 👈 adjust this height as per your UI
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),

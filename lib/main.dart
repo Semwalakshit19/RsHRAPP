@@ -37,13 +37,28 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ Android settings
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+
+  // ✅ iOS settings
+  const DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(); // Use this instead of old IOSInitializationSettings
+
+  // ✅ Combine both
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  // ✅ Initialize plugin
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Other initializations
   HttpOverrides.global = MyHttpOverrides();
   await GetStorage.init();
+
   runApp(const MyApp());
 }
 
