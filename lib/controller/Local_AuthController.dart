@@ -17,7 +17,7 @@ class LocalLogin extends GetxController {
       bool isauth = await auth.authenticate(
           localizedReason: "Authentification",
           options: const AuthenticationOptions(
-              stickyAuth: true, biometricOnly: false));
+              stickyAuth: true, biometricOnly: true));
 
       return isauth;
     } catch (ex) {
