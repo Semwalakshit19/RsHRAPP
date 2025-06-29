@@ -46,7 +46,7 @@ dependencies:
   intl: ^0.20.2
   month_picker_dialog: ^6.2.1
 
-  google_maps_flutter: ^2.12.2
+  # google_maps_flutter: ^2.12.2
   timelines_plus: ^1.0.7
 
 dev_dependencies:

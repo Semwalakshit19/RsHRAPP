@@ -37,8 +37,6 @@ class _DashboardPageState extends State<DashboardPage> {
     approvaldetailscontroller.GetApprovaldetails();
     Profilecontroller profilecontroller = Get.put(Profilecontroller());
 
-    LocationController locationController = Get.put(LocationController());
-
     // final Login = Get.put(Logincontroller());
     // final profile = Get.put(Profilecontroller());
 
@@ -50,14 +48,14 @@ class _DashboardPageState extends State<DashboardPage> {
 
     controller.getdashboardDetails();
 
-    final pos = locationController.currentPosition.value;
-    final LatLng officeLatLng = LatLng(
-      locationController.officeLat,
-      locationController.officeLng,
-    );
-    final LatLng initialTarget = pos != null
-        ? LatLng(pos.latitude, pos.longitude)
-        : officeLatLng; // Default to office if position is null
+    // final pos = locationController.currentPosition.value;
+    // final LatLng officeLatLng = LatLng(
+    //   locationController.officeLat,
+    //   locationController.officeLng,
+    // );
+    // final LatLng initialTarget = pos != null
+    //     ? LatLng(pos.latitude, pos.longitude)
+    //     : officeLatLng; // Default to office if position is null
 
     Attendencecontroller attendencecontroller = Get.put(Attendencecontroller());
 
